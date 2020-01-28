@@ -32,6 +32,7 @@ services:
       repo_url: 'https://github.ibm.com/cocoa/tekton-poc-pipeline'
       owner_id: 'cocoa'
       type: link
+      has_issues: false
       enable_traceability: false
       legal: true
   application-repo:   
@@ -56,7 +57,7 @@ services:
           $text: tekton.yaml
         env:
           DEFINITION_REPO: tekton-definition-repo
-          APPLICATION_REPO: '{{services.application-repo.parameters.source_repo_url}}'
+          APPLICATION_REPO: application-repo
           CF_APP_NAME: '{{form.pipeline.parameters.app-name}}'
           REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
           REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
