@@ -41,7 +41,7 @@ services:
       source_repo_url: 'https://github.ibm.com/cocoa/cocoa-example-app'
       type: clone
       has_issues: false
-      enable_traceability: true
+      enable_traceability: false
       legal: true
   build:
     service_id: pipeline
