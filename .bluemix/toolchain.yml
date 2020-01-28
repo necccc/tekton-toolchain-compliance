@@ -29,7 +29,7 @@ services:
   tekton-definition-repo:
     service_id: github_integrated
     parameters:
-      source_repo_url: 'https://github.ibm.com/cocoa/tekton-poc-pipeline'
+      repo_url: 'https://github.ibm.com/cocoa/tekton-poc-pipeline'
       owner_id: 'cocoa'
       type: link
       enable_traceability: false
