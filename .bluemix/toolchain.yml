@@ -53,8 +53,8 @@ services:
         content:
           $text: tekton.yaml
         env:
-          DEFINITION_REPO: tekton-definition-repo
-          APPLICATION_REPO: tekton-definition-repo
+          DEFINITION_REPO: '{{services.tekton-definition-repo.parameters.source_repo_url}}'
+          APPLICATION_REPO: '{{services.application-repo.parameters.source_repo_url}}'
           CF_APP_NAME: '{{form.pipeline.parameters.app-name}}'
           REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
           REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
