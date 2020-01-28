@@ -9,11 +9,14 @@ triggers:
   name: Git PR Trigger
   service: ${APPLICATION_REPO}
   branch: master
-  events: {"push":true,"pull_request":true,"pull_request_closed":false}
-  eventListener: listener
+  events: {"push":false,"pull_request":true,"pull_request_closed":false}
+  eventListener: ci_listener
 - type: manual
-  name: Manual Trigger
-  eventListener: listener
+  name: Manual Triggered CI
+  eventListener: listener_ci
+- type: manual
+  name: Manual Triggered CD
+  eventListener: listener_cd  
 properties:
 - name: apikey
   value: ${API_KEY}
