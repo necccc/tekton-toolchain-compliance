@@ -31,8 +31,7 @@ services:
     parameters:
       source_repo_url: 'https://github.ibm.com/cocoa/tekton-poc-pipeline'
       owner_id: 'cocoa'
-      type: clone
-      has_issues: false
+      type: link
       enable_traceability: false
       legal: true
   application-repo:   
