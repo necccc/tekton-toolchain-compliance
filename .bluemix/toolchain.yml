@@ -27,14 +27,14 @@ toolchain:
       $ref: "#/messages/template.gettingStarted" 
 services:
   tekton-definition-repo:
-    service_id: github
+    service_id: github_integrated
     parameters:
       source_repo_url: 'https://github.ibm.com/cocoa/tekton-poc-pipeline'
       type: link
       has_issues: false
       enable_traceability: true
   application-repo:   
-    service_id: github  
+    service_id: github_integrated  
     parameters:
       source_repo_url: 'https://github.ibm.com/cocoa/cocoa-example-app'
       type: link
