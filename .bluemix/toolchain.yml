@@ -37,9 +37,8 @@ services:
   application-repo:   
     service_id: github_integrated  
     parameters:
-      source_repo_url: 'cocoa/cocoa-example-app'
-      owner_id: 'fork'
-      type: clone
+      source_repo_url: 'https://github.ibm.com/cocoa/cocoa-example-app'
+      type: fork
       has_issues: false
       enable_traceability: true
   build:
