@@ -98,7 +98,19 @@
           "pattern": "\\S"
       }
   },
-  "required": ["app-name", "api-key", "registry-region", "registry-namespace", "prod-region", "prod-resource-group", "prod-cluster-name", "prod-cluster-namespace"],
+  "required": [
+    "app-name", 
+    "api-key", 
+    "registry-region", 
+    "registry-namespace", 
+    "prod-region", 
+    "prod-resource-group", 
+    "prod-cluster-name", 
+    "prod-cluster-namespace",
+    "emergency_label",
+    "ghe_token",
+    "service_now_token"
+  ],
   "form": [
      {
         "type": "validator",
@@ -221,7 +233,27 @@
                 "readonly": false
               }
           ]
-      },{
+      },
+      {
+        "type": "text",
+        "readonly": false,
+        "title": "Emergency Label for PR",
+        "key": "emergency_label",
+        "value": "EMERGENCY"
+      },
+      {
+          "type": "password",
+          "readonly": false,
+          "title": "Service Now Token",
+          "key": "service_now_token"
+      },
+      {
+          "type": "password",
+          "readonly": false,
+          "title": "GHE Token",
+          "key": "ghe_token"
+      },
+      {
         "type": "table",
         "columnCount": 1,
           "widths": ["100%"],
