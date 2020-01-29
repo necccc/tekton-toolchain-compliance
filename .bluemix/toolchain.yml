@@ -116,5 +116,6 @@ form:
       prod-cluster-namespace: prod
       build-cluster-namespace: staging
       emergency_label: EMERGENCY
+      ghe_token: 
     schema:
       $ref: deploy.json
