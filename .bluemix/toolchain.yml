@@ -99,8 +99,8 @@ services:
   servicenow:
     service_id: customtool
     parameters:
-      type: ServiceNow Change Management
-      lifecyclePhase: "DELIVER"
+      type: servicenow
+      lifecyclePhase: 'THINK'
       imageUrl:
         $ref: servicenow.png
         $refType: image-data-uri
@@ -108,17 +108,6 @@ services:
       name: ServiceNow Change Management
       dashboard_url: https://watson.service-now.com/ess_portal?id=ss_homepage
       description: IBM Cloud Employee Service Portal
-      additional-properties: '{"credentials":{"username":"{{form.customtool_Sauce Labs.parameters.username}}", "access_key":"{{form.customtool_Sauce Labs.parameters.access_key}}"}}'
-  mattermost:
-    service_id: customtool
-    parameters:
-      type: 'Mattermost'      
-      lifecyclePhase: 'THINK'
-      imageUrl: 'http://www.mattermost.org/wp-content/uploads/2016/04/icon.png'
-      documentationUrl: 'https://www.mattermost.com'
-      name: 'Mattermost BP2I'
-      dashboard_url: '{{form.customtool.parameters.channel_url}}'
-      description: 'Mattermost as collaborative tool for BNPP/BP2I'
 form:
   pipeline:
     parameters:
@@ -129,9 +118,8 @@ form:
       ghe_token: 
     schema:
       $ref: deploy.json
-  customtool_Mattermost:
-    parameters: 
-      channel_url: 'https://www.mattermost.org/channel#4forproject'
-      imageUrl: 'http://www.mattermost.org/wp-content/uploads/2016/04/icon.png'      
+  customtool_servicenow:
+    parameters:
+      api-token: 
     schema:
-      $ref: customtool_mattermost.json
+      $ref: customtool_servicenow.json
