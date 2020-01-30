@@ -13,10 +13,10 @@ triggers:
   eventListener: ci_listener
 - type: manual
   name: Manual Triggered CI
-  eventListener: listener_ci
+  eventListener: ci-listener
 - type: manual
   name: Manual Triggered CD
-  eventListener: listener_cd  
+  eventListener: cd-listener
 properties:
 - name: apikey
   value: ${API_KEY}
