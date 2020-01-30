@@ -118,7 +118,7 @@ form:
       ghe_token: 
     schema:
       $ref: deploy.json
-  customtool_servicenow:
+  servicenow:
     parameters:
       api-token: 
     schema:
