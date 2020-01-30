@@ -99,15 +99,15 @@ services:
   servicenow:
     service_id: customtool
     parameters:
-      type: servicenow
+      type: 'servicenow'
       lifecyclePhase: 'THINK'
       imageUrl:
         $ref: servicenow.png
         $refType: image-data-uri
-      documentationUrl: https://watson.service-now.com/ess_portal?id=kb_category&kb_category=92518934db4e3300fc0e389f9d961990
-      name: ServiceNow Change Management
-      dashboard_url: https://watson.service-now.com/ess_portal?id=ss_homepage
-      description: IBM Cloud Employee Service Portal
+      documentationUrl: 'https://watson.service-now.com/ess_portal?id=kb_category&kb_category=92518934db4e3300fc0e389f9d961990'
+      name: 'ServiceNow Change Management'
+      dashboard_url: 'https://watson.service-now.com/ess_portal?id=ss_homepage'
+      description: 'IBM Cloud Employee Service Portal'
 form:
   pipeline:
     parameters:
@@ -118,7 +118,7 @@ form:
       ghe_token: 
     schema:
       $ref: deploy.json
-  servicenow:
+  customtool_servicenow:
     parameters:
       api-token: 
     schema:
