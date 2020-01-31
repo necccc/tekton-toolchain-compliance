@@ -10,7 +10,10 @@ template:
   icon: secure-lock-kubernetes.svg
   required:
     - build
-    - repo
+    - tekton-definition-repo
+    - application-repo
+    - evidence-repo
+    - issue-repo    
   info:
     git url: >
       "[" + $env.repository + "]" +
@@ -20,24 +23,50 @@ template:
         "(" + $env.repository +
           "/tree/" + $env.branch + ")"
 toolchain:
-  name: 'simple-tekton-toolchain-{{timestamp}}'
+  name: 'tekton-toolchain-compliance-{{timestamp}}'
   template:
     getting_started:
       $ref: "#/messages/template.gettingStarted" 
 services:
-  repo:
-    service_id: githubpublic
+  tekton-definition-repo:
+    service_id: github_integrated
     parameters:
-      repo_name: '{{toolchain.name}}'
-      source_repo_url: 'https://github.com/open-toolchain/hello-tekton'
+      repo_url: 'https://github.ibm.com/cocoa/tekton-poc-pipeline'
+      owner_id: 'cocoa'
+      type: link
+      has_issues: false
+      enable_traceability: false
+      legal: true
+  application-repo:   
+    service_id: github_integrated  
+    parameters:
+      source_repo_url: 'https://github.ibm.com/cocoa/cocoa-example-app'
       type: clone
       has_issues: false
+      enable_traceability: false
+      legal: true
+  issues-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'issues-{{toolchain.name}}'
+      type: new
+      has_issues: false
       enable_traceability: true
+      legal: true
+  evidence-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'evidences-{{toolchain.name}}'
+      type: new
+      has_issues: false
+      enable_traceability: true
+      legal: true      
   build:
     service_id: pipeline
     parameters:
       services:
-        - repo
+        - tekton-definition-repo
+        - application-repo
       name: '{{services.repo.parameters.repo_name}}'
       type: tekton
       ui-pipeline: true
@@ -45,7 +74,12 @@ services:
         content:
           $text: tekton.yaml
         env:
-          GIT_REPO: repo
+          # repo for Tekton definitions
+          DEFINITION_REPO: tekton-definition-repo
+          # repo of your application to be build/deployed
+          APPLICATION_REPO: application-repo
+          REVISION: master
+          # IBM Cloud cluster data
           CF_APP_NAME: '{{form.pipeline.parameters.app-name}}'
           REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
           REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
@@ -53,15 +87,39 @@ services:
           PROD_REGION_ID: '{{form.pipeline.parameters.prod-region}}'
           PROD_CLUSTER_NAME: '{{form.pipeline.parameters.prod-cluster-name}}'
           PROD_CLUSTER_NAMESPACE: '{{form.pipeline.parameters.prod-cluster-namespace}}'
-          REPOSITORY: '{{services.repo.parameters.source_repo_url}}'
-          REVISION: master
+          # GitHub Enterprise credentials to access the v3 REST API
+          GHE_USER: '{{form.app-repo.parameters.owner_id}}'
+          GHE_TOKEN: '{{form.pipeline.parameters.ghe_token}}'
+          # Issues repo to raise compliance related issues from the CI/CD
+          GHE_ISSUES_REPO: '{{form.issues-repo.parameters.repo_name}}'
+          EMERGENCY_LABEL: '{{form.pipeline.parameters.emergency_label}}'
+          # ServiceNow API token to create Change Requests
+          SERVICE_NOW_TOKEN: '{{services.pipeline.parameters.service_now_token}}'
         execute: true
-  webide:
-    service_id: orion
+  servicenow:
+    service_id: customtool
+    parameters:
+      type: 'servicenow'
+      lifecyclePhase: 'THINK'
+      imageUrl:
+        $ref: customtool_servicenow.png
+        $refType: image-data-uri
+      documentationUrl: 'https://watson.service-now.com/ess_portal?id=kb_category&kb_category=92518934db4e3300fc0e389f9d961990'
+      name: 'ServiceNow Change Management'
+      dashboard_url: 'https://watson.service-now.com/ess_portal?id=ss_homepage'
+      description: 'IBM Cloud Employee Service Portal'
 form:
   pipeline:
     parameters:
-      app-name: '{{services.repo.parameters.repo_name}}'
+      app-name: '{{services.application-repo.parameters.repo_name}}'
       prod-cluster-namespace: prod
+      build-cluster-namespace: staging
+      emergency_label: EMERGENCY
+      ghe_token: 
     schema:
       $ref: deploy.json
+  customtool_servicenow:
+    parameters:
+      api-token: '123'
+    schema:
+      $ref: customtool_servicenow.json

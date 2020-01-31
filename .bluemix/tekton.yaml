@@ -2,18 +2,21 @@
 inputs:
 - type: git
   branch: master
-  service: ${GIT_REPO}
+  service: ${DEFINITION_REPO}
   path: .tekton
 triggers:
 - type: git
   name: Git PR Trigger
-  service: ${GIT_REPO}
+  service: ${APPLICATION_REPO}
   branch: master
-  events: {"push":true,"pull_request":true,"pull_request_closed":false}
-  eventListener: listener
+  events: {"push":false,"pull_request":true,"pull_request_closed":false}
+  eventListener: ci_listener
 - type: manual
-  name: Manual Trigger
-  eventListener: listener
+  name: Manual Triggered CI
+  eventListener: ci-listener
+- type: manual
+  name: Manual Triggered CD
+  eventListener: cd-listener
 properties:
 - name: apikey
   value: ${API_KEY}
@@ -34,7 +37,7 @@ properties:
   value: ${REGISTRY_REGION_ID}
   type: text
 - name: repository
-  value: ${REPOSITORY}
+  value: ${APPLICATION_REPO}
   type: text
 - name: revision
   value: ${REVISION}
